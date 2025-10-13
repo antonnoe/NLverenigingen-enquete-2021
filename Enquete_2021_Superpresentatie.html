@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nederlanders.fr – Enquête 2021 Superpresentatie</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #800000 0%, #a02020 100%); overflow-x: hidden; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .slide { background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); margin: 40px 0; padding: 60px; min-height: 600px; }
+        h1 { color: #2c3e50; font-size: 3.5em; text-align: center; margin-bottom: 30px; font-weight: 700; }
+        h2 { color: #800000; font-size: 2.5em; margin-bottom: 30px; text-align: center; font-weight: 600; }
+        h3 { color: #a02020; font-size: 1.8em; margin: 25px 0 15px 0; }
+        h4 { color: #2c3e50; font-size: 1.4em; margin: 20px 0 10px 0; }
+        p, li { color: #555; font-size: 1.1em; line-height: 1.8; margin-bottom: 15px; }
+        .subtitle { color: #800000; font-size: 1.5em; text-align: center; margin-bottom: 40px; font-style: italic; }
+        .credit { text-align: center; color: #7f8c8d; font-size: 1em; margin-top: 20px; }
+        .credit a { color: #800000; text-decoration: none; font-weight: 600; }
+        .credit a:hover { text-decoration: underline; }
+        .chart-container { background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 30px 0; }
+        .bar-chart { margin: 20px 0; }
+        .bar-item { margin: 15px 0; }
+        .bar-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 600; color: #2c3e50; }
+        .bar-bg { background: #ecf0f1; height: 35px; border-radius: 10px; overflow: hidden; position: relative; }
+        .bar-fill { background: linear-gradient(90deg, #800000 0%, #600000 100%); height: 100%; border-radius: 10px; transition: width 1s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; color: white; font-weight: bold; }
+        .bar-fill.high { background: linear-gradient(90deg, #27ae60 0%, #229954 100%); }
+        .bar-fill.medium { background: linear-gradient(90deg, #f39c12 0%, #e67e22 100%); }
+        .bar-fill.low { background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin: 30px 0; }
+        .stat-card { background: linear-gradient(135deg, #800000 0%, #a02020 100%); color: white; padding: 35px; border-radius: 15px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .stat-number { font-size: 3.5em; font-weight: 700; margin-bottom: 10px; }
+        .stat-label { font-size: 1.2em; opacity: 0.9; }
+        .quote-container { background: #fff3cd; border-left: 5px solid #f39c12; padding: 25px; margin: 25px 0; border-radius: 10px; font-style: italic; }
+        .quote-text { color: #856404; font-size: 1.15em; line-height: 1.7; margin-bottom: 10px; }
+        .quote-attribution { text-align: right; color: #856404; font-weight: 600; font-style: normal; }
+        .data-table { width: 100%; border-collapse: collapse; margin: 25px 0; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; }
+        .data-table thead { background: linear-gradient(135deg, #800000 0%, #a02020 100%); color: white; }
+        .data-table th, .data-table td { padding: 18px; text-align: left; border-bottom: 1px solid #ecf0f1; }
+        .data-table th { font-weight: 600; font-size: 1.1em; }
+        .data-table tr:hover { background: #f8f9fa; }
+        .data-table .score-high { color: #27ae60; font-weight: bold; }
+        .data-table .score-medium { color: #f39c12; font-weight: bold; }
+        .data-table .score-low { color: #e74c3c; font-weight: bold; }
+        .quadrant-wrapper { margin: 50px auto; max-width: 1000px; }
+        .axis-explanation { text-align: center; margin-bottom: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px; }
+        .axis-explanation p { font-size: 1.2em; color: #2c3e50; margin: 10px 0; }
+        .axis-explanation strong { color: #800000; }
+        .quadrant-container { position: relative; width: 100%; max-width: 900px; margin: 0 auto; padding: 80px 40px 40px 80px; }
+        .quadrant-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 30px; position: relative; min-height: 600px; }
+        .axis-horizontal { position: absolute; top: 50%; left: 0; right: 0; height: 4px; background: #2c3e50; transform: translateY(-50%); z-index: 1; }
+        .axis-vertical { position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: #2c3e50; transform: translateX(-50%); z-index: 1; }
+        .axis-label { position: absolute; background: white; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 1.1em; color: #800000; box-shadow: 0 3px 10px rgba(0,0,0,0.15); z-index: 3; border: 3px solid #800000; }
+        .axis-label-top { top: -15px; left: 50%; transform: translateX(-50%); }
+        .axis-label-bottom { bottom: -15px; left: 50%; transform: translateX(-50%); }
+        .axis-label-left { left: 0; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; text-orientation: mixed; }
+        .axis-label-right { right: 0; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; text-orientation: mixed; }
+        .quadrant-box { background: white; padding: 30px; border-radius: 15px; border: 3px solid #ecf0f1; position: relative; z-index: 2; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .quadrant-box:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-color: #800000; }
+        .quadrant-icon { font-size: 3em; text-align: center; margin-bottom: 15px; }
+        .quadrant-title { color: #800000; font-size: 1.6em; font-weight: bold; margin-bottom: 10px; text-align: center; }
+        .quadrant-subtitle { color: #7f8c8d; font-size: 0.9em; text-align: center; margin-bottom: 20px; font-style: italic; }
+        .quadrant-items { list-style: none; padding: 0; flex-grow: 1; }
+        .quadrant-items li { padding: 8px 0; border-bottom: 1px solid #ecf0f1; font-size: 1em; }
+        .quadrant-items li:last-child { border-bottom: none; }
+        .quadrant-items li::before { content: "✓ "; color: #27ae60; font-weight: bold; margin-right: 8px; }
+        .section-header { background: linear-gradient(135deg, #800000 0%, #a02020 100%); color: white; padding: 25px; border-radius: 10px; margin: 40px 0 20px 0; text-align: center; }
+        .section-header h3 { color: white; margin: 0; }
+        .section-header.interregional { background: linear-gradient(135deg, #800000 0%, #a02020 100%); }
+        .section-header.regional { background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%); }
+        .info-box { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 25px; border-radius: 10px; margin: 25px 0; }
+        .info-box.warning { background: #fff3e0; border-color: #ff9800; }
+        .info-box.success { background: #e8f5e9; border-color: #4caf50; }
+        .info-box.maroon { background: #ffe6e6; border-color: #800000; }
+        .highlight { background: linear-gradient(120deg, #ffeaa7 0%, #fdcb6e 100%); padding: 3px 8px; border-radius: 5px; font-weight: 600; }
+        .vereniging-card { background: white; border: 2px solid #ecf0f1; padding: 20px; margin: 15px 0; border-radius: 10px; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
+        .vereniging-card:hover { border-color: #800000; box-shadow: 0 5px 15px rgba(128, 0, 0, 0.3); transform: translateX(5px); }
+        .vereniging-name { font-weight: 600; font-size: 1.2em; color: #2c3e50; }
+        .vereniging-members { background: #800000; color: white; padding: 8px 20px; border-radius: 20px; font-weight: 600; }
+        a { color: #800000; text-decoration: none; font-weight: 600; }
+        a:hover { text-decoration: underline; }
+        .navigation { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
+        .nav-button { background: white; color: #800000; border: none; padding: 15px 25px; margin: 5px; border-radius: 50px; cursor: pointer; font-size: 1.1em; font-weight: 600; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; }
+        .nav-button:hover { background: #800000; color: white; transform: translateY(-3px); }
+        @media (max-width: 768px) {
+            .slide { padding: 30px 20px; }
+            h1 { font-size: 2.2em; }
+            h2 { font-size: 1.8em; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .quadrant-container { padding: 100px 10px 20px 10px; }
+            .quadrant-grid { grid-template-columns: 1fr; min-height: auto; }
+            .axis-label-left, .axis-label-right { display: none; }
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+<div class="slide">
+            <h1 style="color: #800000;">Nederlanders.fr</h1>
+            <p class="subtitle">Enquête 2021 - Volledige Analyse</p>
+            <p class="subtitle" style="font-size: 1.2em;">Waardecreatie Nederlandse Verenigingen in Frankrijk</p>
+            <p class="credit">Deze enquête werd ontwikkeld in samenwerking met de <a href="https://dbcra.fr/" target="_blank">DBCRA</a></p>
+        </div>
+
+        <div class="slide">
+            <h2>EXECUTIVE SUMMARY</h2>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-number">466</div><div class="stat-label">Respondenten</div></div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #a02020 0%, #c03030 100%);"><div class="stat-number">50+</div><div class="stat-label">Verenigingen</div></div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%);"><div class="stat-number">22</div><div class="stat-label">Regio's</div></div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);"><div class="stat-number">4.77/6</div><div class="stat-label">Aanbeveling</div></div>
+            </div>
+            <div class="info-box success">
+                <h4>🎯 Belangrijkste Bevindingen</h4>
+                <ul>
+                    <li><strong>Belangenbehartiging scoort het hoogst:</strong> Fiscale zaken (4.25/5), Verdragsrecht/Mutuelle (4.44/5), Consulaire diensten (4.22/5)</li>
+                    <li><strong>Sociaal netwerk is zeer gewenst:</strong> Hulp aan ouderen (4.04/5), Praktische ondersteuning (3.96/5)</li>
+                    <li><strong>Gezelligheid blijft belangrijk:</strong> Nederlandse borrels (3.71/5) populairder dan evenementen (2.85/5)</li>
+                    <li><strong>Business netwerk is relevant voor ondernemers:</strong> Gemiddelde scores rond 3.5/5</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>HET WAARDEKWADRANT</h2>
+            <p style="text-align: center; font-size: 1.3em; color: #7f8c8d; margin-bottom: 40px;">Vier pijlers van Nederlandse verenigingen - gepositioneerd op twee assen</p>
+            <div class="axis-explanation">
+                <p><strong>Horizontale as:</strong> PARTICULIER (persoonlijk/informeel) ↔ ZAKELIJK (professioneel/formeel)</p>
+                <p><strong>Verticale as:</strong> REGIO (lokaal) ↔ INTERREGIONAAL (landelijk/Frankrijk-breed)</p>
+            </div>
+            <div class="quadrant-wrapper">
+                <div class="quadrant-container">
+                    <div class="axis-label axis-label-top">INTERREGIONAAL</div>
+                    <div class="axis-label axis-label-bottom">REGIO</div>
+                    <div class="axis-label axis-label-left">PARTICULIER</div>
+                    <div class="axis-label axis-label-right">ZAKELIJK</div>
+                    <div class="quadrant-grid">
+                        <div class="axis-horizontal"></div>
+                        <div class="axis-vertical"></div>
+                        <div class="quadrant-box" style="grid-row: 1; grid-column: 1;">
+                            <div class="quadrant-icon">🤝</div>
+                            <div class="quadrant-title">SOCIAAL NETWERK</div>
+                            <div class="quadrant-subtitle">Interregionaal + Particulier</div>
+                            <ul class="quadrant-items">
+                                <li>Hulp aan ouderen</li>
+                                <li>Netwerk voor ouders</li>
+                                <li>Praktische hulp</li>
+                                <li>Administratie & belasting</li>
+                                <li>Hand- en spandiensten</li>
+                            </ul>
+                        </div>
+                        <div class="quadrant-box" style="grid-row: 1; grid-column: 2;">
+                            <div class="quadrant-icon">📊</div>
+                            <div class="quadrant-title">BELANGENBEHARTIGING</div>
+                            <div class="quadrant-subtitle">Interregionaal + Zakelijk</div>
+                            <ul class="quadrant-items">
+                                <li>Fiscale zaken</li>
+                                <li>Verdragsrecht/Mutuelle</li>
+                                <li>Consulaire diensten</li>
+                                <li>Dubbele nationaliteit</li>
+                                <li>Aansluiting FANF</li>
+                            </ul>
+                        </div>
+                        <div class="quadrant-box" style="grid-row: 2; grid-column: 1;">
+                            <div class="quadrant-icon">🎉</div>
+                            <div class="quadrant-title">GEZELLIGHEID</div>
+                            <div class="quadrant-subtitle">Regio + Particulier</div>
+                            <ul class="quadrant-items">
+                                <li>Nederlandse borrels</li>
+                                <li>Koningsdag, Sinterklaas</li>
+                                <li>Wandeltochten</li>
+                                <li>Hobbyclub</li>
+                                <li>Culturele activiteiten</li>
+                            </ul>
+                        </div>
+                        <div class="quadrant-box" style="grid-row: 2; grid-column: 2;">
+                            <div class="quadrant-icon">💼</div>
+                            <div class="quadrant-title">BUSINESS NETWERK</div>
+                            <div class="quadrant-subtitle">Regio + Zakelijk</div>
+                            <ul class="quadrant-items">
+                                <li>Zakelijke netwerken</li>
+                                <li>Kennis zakendoen</li>
+                                <li>Groei & omzet</li>
+                                <li>Wet- & regelgeving</li>
+                                <li>Klusplatform</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info-box maroon" style="margin-top: 60px;">
+                <h4>💡 Het Model Uitgelegd</h4>
+                <p><strong>Horizontale as (PARTICULIER ↔ ZAKELIJK):</strong> Links zijn persoonlijke/informele thema's, rechts zijn zakelijke/professionele thema's.</p>
+                <p><strong>Verticale as (REGIO ↔ INTERREGIONAAL):</strong> Beneden zijn lokale/regionale activiteiten, boven zijn landelijke/Frankrijk-brede onderwerpen.</p>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Sociaal Netwerk (links-boven):</strong> Frankrijk-breed elkaar helpen op persoonlijk vlak</li>
+                    <li><strong>Belangenbehartiging (rechts-boven):</strong> Landelijke lobby & formele expertise</li>
+                    <li><strong>Gezelligheid (links-onder):</strong> Lokaal samenkomen, persoonlijk contact</li>
+                    <li><strong>Business (rechts-onder):</strong> Zakelijk netwerken in je regio</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>WIE ZIJN DE RESPONDENTEN?</h2>
+            <h3>📊 Status in Frankrijk</h3>
+            <div class="chart-container">
+                <div class="bar-chart">
+                    <div class="bar-item"><div class="bar-label"><span>Gepensioneerd</span><span>303 (65%)</span></div><div class="bar-bg"><div class="bar-fill high" style="width: 65%;">65%</div></div></div>
+                    <div class="bar-item"><div class="bar-label"><span>Ondernemer</span><span>64 (14%)</span></div><div class="bar-bg"><div class="bar-fill" style="width: 14%;">14%</div></div></div>
+                    <div class="bar-item"><div class="bar-label"><span>Eigenaar tweede huis</span><span>53 (11%)</span></div><div class="bar-bg"><div class="bar-fill" style="width: 11%;">11%</div></div></div>
+                    <div class="bar-item"><div class="bar-label"><span>In loondienst</span><span>42 (9%)</span></div><div class="bar-bg"><div class="bar-fill" style="width: 9%;">9%</div></div></div>
+                    <div class="bar-item"><div class="bar-label"><span>Expat (NL werkgever)</span><span>4 (1%)</span></div><div class="bar-bg"><div class="bar-fill low" style="width: 1%;">1%</div></div></div>
+                </div>
+            </div>
+            <div class="info-box"><p><strong>💡 Inzicht:</strong> De grote meerderheid (65%) bestaat uit gepensioneerden. Dit verklaart de hoge scores voor zaken als gezondheidszorg, consulaire diensten en sociale ondersteuning.</p></div>
+        </div>
+
+
+
+        <div class="slide">
+            <h2>👥 LIDMAATSCHAP VERENIGINGEN</h2>
+            <div style="text-align: center; margin: 40px 0;">
+                <svg width="600" height="350" viewBox="0 0 600 350">
+                    <circle cx="180" cy="175" r="140" fill="#e74c3c" />
+                    <path d="M 180,175 L 180,35 A 140,140 0 0,1 282,94 Z" fill="#800000" />
+                    <text x="100" y="180" fill="white" font-size="24" font-weight="bold">62%</text>
+                    <text x="100" y="210" fill="white" font-size="16">Geen lid</text>
+                    <text x="100" y="230" fill="white" font-size="14">(288)</text>
+                    <text x="240" y="100" fill="white" font-size="24" font-weight="bold">38%</text>
+                    <text x="240" y="130" fill="white" font-size="16">Wel lid</text>
+                    <text x="240" y="150" fill="white" font-size="14">(178)</text>
+                    <rect x="380" y="80" width="30" height="30" fill="#e74c3c" rx="5" />
+                    <text x="420" y="102" font-size="18">Geen lid (288)</text>
+                    <rect x="380" y="130" width="30" height="30" fill="#800000" rx="5" />
+                    <text x="420" y="152" font-size="18">Wel lid (178)</text>
+                </svg>
+            </div>
+            <div class="info-box warning">
+                <h4>⚠️ Groeipotentieel</h4>
+                <p>62% van de Nederlanders in Frankrijk is nog GEEN lid van een vereniging. Dit betekent een enorm groeipotentieel van bijna <strong>15.500 potentiële leden</strong> alleen al binnen het Nederlanders.fr netwerk van 25.000+ leden!</p>
+            </div>
+            <div class="section-header"><h3>Aanbevelingsscore: 4.77/6 (Zeer Positief!)</h3></div>
+            <div class="chart-container">
+                <h4>Verdeling aanbevelingsscore</h4>
+                <div class="bar-chart">
+                    <div class="bar-item"><div class="bar-label"><span>⭐⭐⭐⭐⭐⭐ (6 - Absoluut wel)</span><span>63 respondenten</span></div><div class="bar-bg"><div class="bar-fill high" style="width: 35%;">35%</div></div></div>
+                    <div class="bar-item"><div class="bar-label"><span>⭐⭐⭐⭐⭐ (5)</span><span>47 respondenten</span></div><div class="bar-bg"><div class="bar-fill high" style="width: 26%;">26%</div></div></div>
+                    <div class="bar-item"><div class="bar-label"><span>⭐⭐⭐⭐ (4)</span><span>45 respondenten</span></div><div class="bar-bg"><div class="bar-fill medium" style="width: 25%;">25%</div></div></div>
+                    <div class="bar-item"><div class="bar-label"><span>⭐⭐⭐ (3)</span><span>14 respondenten</span></div><div class="bar-bg"><div class="bar-fill medium" style="width: 8%;">8%</div></div></div>
+                </div>
+            </div>
+            <div class="info-box success"><p><strong>✅ Conclusie:</strong> Leden zijn zeer tevreden! 61% geeft een score van 5 of 6.</p></div>
+        </div>
+
+        <div class="slide">
+            <h2>🏛️ ALLE NEDERLANDSE VERENIGINGEN IN FRANKRIJK</h2>
+            <p style="text-align: center; margin-bottom: 30px;"><a href="https://www.nederlanders.fr/profiles/blogs/overzicht-van-nederlandse-verenigingen-in-frankrijk" target="_blank">📋 Volledig overzicht van alle Nederlandse verenigingen →</a></p>
+            <div class="section-header"><h3>🏆 Top 10 Verenigingen (meeste respondenten)</h3></div>
+            <div class="vereniging-card" style="background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);"><div class="vereniging-name">🥇 Nederlanders in Frankrijk</div><div class="vereniging-members" style="background: #c0392b;">31</div></div>
+            <div class="vereniging-card" style="background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);"><div class="vereniging-name">🥈 CMUnf - Club van Medische Uitvoerders</div><div class="vereniging-members" style="background: #c0392b;">28</div></div>
+            <div class="vereniging-card" style="background: linear-gradient(135deg, #cd7f32 0%, #d4a574 100%);"><div class="vereniging-name">🥉 ANM - Nederlandse Vereniging in de Midi</div><div class="vereniging-members" style="background: #c0392b;">27</div></div>
+            <div class="vereniging-card"><div class="vereniging-name">Dutch Business Club Rhône-Alpes</div><div class="vereniging-members">19</div></div>
+            <div class="vereniging-card"><div class="vereniging-name">NVLR - Languedoc Roussillon</div><div class="vereniging-members">19</div></div>
+            <div class="vereniging-card"><div class="vereniging-name">De Nederlandse Club Côte d'Azur (DNC/JOP)</div><div class="vereniging-members">17</div></div>
+            <div class="vereniging-card"><div class="vereniging-name">De Nederlandse Club Côte d'Azur (DNC)</div><div class="vereniging-members">12</div></div>
+            <div class="vereniging-card"><div class="vereniging-name">Nederlandse Vereniging Parijs en Omstreken</div><div class="vereniging-members">10</div></div>
+            <div class="vereniging-card"><div class="vereniging-name">La Tulipe Perigord</div><div class="vereniging-members">10</div></div>
+            <div class="vereniging-card"><div class="vereniging-name">Nederlanders.fr</div><div class="vereniging-members">8</div></div>
+            <div class="info-box"><p><strong>💡 Inzicht:</strong> Er zijn enorm veel lokale en regionale verenigingen, wat de behoefte aan een koepelorganisatie (FANF) onderstreept voor landelijke belangenbehartiging.</p></div>
+        </div>
+
+
+
+        <div class="slide">
+            <div class="section-header interregional"><h3>📊 BELANGENBEHARTIGING (Interregionaal + Zakelijk)</h3></div>
+            <div class="info-box maroon">
+                <h4>📍 Positie in Kwadrant</h4>
+                <p><strong>Rechts-boven:</strong> INTERREGIONAAL (landelijk) + ZAKELIJK (professioneel/formeel)</p>
+            </div>
+            <div class="info-box success"><h4>🏆 Dit thema scoort het HOOGST!</h4></div>
+            <table class="data-table">
+                <thead><tr><th>Onderwerp</th><th>Score</th><th>Prioriteit</th></tr></thead>
+                <tbody>
+                    <tr><td>🏥 Verdragsrecht mutuelle</td><td class="score-high">4.44/5</td><td><span class="highlight">ZEER HOOG</span></td></tr>
+                    <tr><td>💰 Fiscale zaken</td><td class="score-high">4.25/5</td><td><span class="highlight">ZEER HOOG</span></td></tr>
+                    <tr><td>🏛️ Consulaire diensten</td><td class="score-high">4.22/5</td><td><span class="highlight">ZEER HOOG</span></td></tr>
+                    <tr><td>ℹ️ Informatievoorziening</td><td class="score-high">4.03/5</td><td>HOOG</td></tr>
+                    <tr><td>🤝 Aansluiting FANF</td><td class="score-medium">3.71/5</td><td>HOOG</td></tr>
+                    <tr><td>🛂 Dubbele nationaliteit</td><td class="score-medium">3.65/5</td><td>HOOG</td></tr>
+                </tbody>
+            </table>
+            <div class="quote-container"><div class="quote-text">"Geen idee, wel dat erkende deskundigheid om regelmatig op de hoogte te worden gehouden. Omtrent Belasting, financiering zorg, veranderingen Europees, rechtszaken e.d. kwartaal nieuwsbrief gevuld met gedegen deskundige berichtgeving."</div><div class="quote-attribution">— Respondent</div></div>
+        </div>
+
+        <div class="slide">
+            <div class="section-header interregional"><h3>🤝 SOCIAAL NETWERK (Interregionaal + Particulier)</h3></div>
+            <div class="info-box maroon"><h4>📍 Positie in Kwadrant</h4><p><strong>Links-boven:</strong> INTERREGIONAAL (landelijk) + PARTICULIER (persoonlijk)</p></div>
+            <table class="data-table">
+                <thead><tr><th>Onderwerp</th><th>Score</th><th>Prioriteit</th></tr></thead>
+                <tbody>
+                    <tr><td>👴 Hulp aan ouderen</td><td class="score-high">4.04/5</td><td><span class="highlight">ZEER HOOG</span></td></tr>
+                    <tr><td>📝 Praktische hulp</td><td class="score-high">3.96/5</td><td>HOOG</td></tr>
+                    <tr><td>🔧 Klusnetwerk</td><td class="score-medium">3.76/5</td><td>HOOG</td></tr>
+                    <tr><td>👶 Ouders netwerk</td><td class="score-medium">3.21/5</td><td>GEMIDDELD</td></tr>
+                </tbody>
+            </table>
+            <div class="quote-container"><div class="quote-text">"'Voor wat hoort wat' zie ik echt niet zitten. Deze echt Nederlandse methode geeft verplichtingen. Ik wil niemand verplichten tot een 'verplichte' wederdienst."</div><div class="quote-attribution">— Respondent</div></div>
+        </div>
+
+        <div class="slide">
+            <div class="section-header regional"><h3>🎉 GEZELLIGHEID (Regio + Particulier)</h3></div>
+            <div class="info-box maroon"><h4>📍 Positie in Kwadrant</h4><p><strong>Links-onder:</strong> REGIO (lokaal) + PARTICULIER (persoonlijk)</p></div>
+            <table class="data-table">
+                <thead><tr><th>Activiteit</th><th>Score</th><th>Populariteit</th></tr></thead>
+                <tbody>
+                    <tr><td>🍻 Nederlandse borrel</td><td class="score-medium">3.71/5</td><td><span class="highlight">POPULAIR</span></td></tr>
+                    <tr><td>🚶 Wandeltochten</td><td class="score-medium">3.08/5</td><td>GEMIDDELD</td></tr>
+                    <tr><td>👑 Koningsdag, Sinterklaas</td><td class="score-medium">2.85/5</td><td>GEMIDDELD</td></tr>
+                    <tr><td>🎨 Hobbyclub</td><td class="score-medium">2.68/5</td><td>MATIG</td></tr>
+                </tbody>
+            </table>
+            <div class="quote-container"><div class="quote-text">"Meer toegankelijk zijn voor nieuwe leden en meer samenwerking tussen verenigingen die in dezelfde regio actief zijn. Meer activiteiten om met elkaar kennis te maken. Bijv. maandelijkse borrels of zo?"</div><div class="quote-attribution">— Respondent</div></div>
+            <div class="info-box success"><h4>✅ Conclusie</h4><ul><li><strong>Nederlandse borrels werken het best</strong> - laagdrempelig</li><li>Sport en cultuur trekken niche groep</li><li>Focus op eenvoud in de regio</li></ul></div>
+        </div>
+
+        <div class="slide">
+            <div class="section-header regional"><h3>💼 BUSINESS NETWERK (Regio + Zakelijk)</h3></div>
+            <div class="info-box maroon"><h4>📍 Positie in Kwadrant</h4><p><strong>Rechts-onder:</strong> REGIO (lokaal) + ZAKELIJK (professioneel)</p></div>
+            <table class="data-table">
+                <thead><tr><th>Business Behoefte</th><th>Score</th><th>Prioriteit</th></tr></thead>
+                <tbody>
+                    <tr><td>📈 Groei (omzet/winst)</td><td class="score-medium">3.52/5</td><td>HOOG</td></tr>
+                    <tr><td>⚖️ Wet- & regelgeving</td><td class="score-medium">3.51/5</td><td>HOOG</td></tr>
+                    <tr><td>📚 Kennis zakendoen</td><td class="score-medium">3.49/5</td><td>HOOG</td></tr>
+                    <tr><td>🤝 Samenwerking</td><td class="score-medium">3.30/5</td><td>GEMIDDELD</td></tr>
+                </tbody>
+            </table>
+            <div class="quote-container"><div class="quote-text">"Sociaal en zakelijk overlappen qua netwerken."</div><div class="quote-attribution">— Respondent</div></div>
+            <div class="info-box success"><h4>✅ Conclusie</h4><p>Scores consistent rond 3.5/5. Ondernemers willen <strong>praktische informatie</strong> over groei en regelgeving in hun specifieke regio.</p></div>
+        </div>
+
+        <div class="slide">
+            <h2>💬 MEER CITATEN VAN RESPONDENTEN</h2>
+            <div class="quote-container"><div class="quote-text">"De traditionele Nederlandse verenigingen hebben hun langste tijd gehad. De wereld is een dorp geworden en middels de moderne communicatie is contact zo simpel geworden. We zijn 'allemaal wereldburgers' geworden."</div><div class="quote-attribution">— Kritische visie</div></div>
+            <div class="quote-container"><div class="quote-text">"Nog een onderwerp: (veranderingen in) de Franse wet en sociale zaken. Veel is handiger om nationaal te doen, met video links vallen de afstanden weg. De behandeling van een algemeen/nationaal probleem multipliceren per regio lijkt me minder efficiënt."</div><div class="quote-attribution">— Over organisatie</div></div>
+            <div class="quote-container"><div class="quote-text">"Vooral info over makelaars, notarissen huizen ed vind ik interessant. Niet het gebla bla zonder respect voor elkaar daar erger ik me aan"</div><div class="quote-attribution">— Behoefte aan praktische info</div></div>
+            <div class="quote-container"><div class="quote-text">"Omdat de Franse taal best een uitdaging is voor Nederlanders is een beetje raad en daad hier en daar toch wel makkelijk"</div><div class="quote-attribution">— Over taalbarrière</div></div>
+            <div class="quote-container"><div class="quote-text">"Het zal eerst ergens regionaal georganiseerd moeten worden. Misschien is het al wel in mijn buurt, maar ik Weet het Niet."</div><div class="quote-attribution">— Gebrek aan informatie</div></div>
+            <div class="quote-container"><div class="quote-text">"Publicatie in lokale krantjes, maar zeker een rubriek in de nieuwsbrief van NEDERLANDERS.FR"</div><div class="quote-attribution">— Over zichtbaarheid</div></div>
+        </div>
+
+
+
+<div class="slide">
+            <h2>🎯 STRATEGISCHE AANBEVELINGEN</h2>
+            <div class="section-header" style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%);"><h3>1. VOOR LOKALE VERENIGINGEN</h3></div>
+            <div class="info-box success">
+                <h4>🏠 Focus op Lokale Gezelligheid & Business</h4>
+                <ul>
+                    <li><strong>Organiseer maandelijkse Nederlandse borrels</strong> - dit scoort het hoogst (3.71/5)</li>
+                    <li><strong>Faciliteer business netwerken</strong> voor ondernemers in de regio</li>
+                    <li><strong>Houd het simpel en laagdrempelig</strong></li>
+                    <li><strong>Gebruik moderne communicatie</strong> - video calls waar afstand een rol speelt</li>
+                    <li><strong>Wees toegankelijk voor nieuwe leden</strong> - 62% is nog geen lid!</li>
+                </ul>
+            </div>
+            <div class="section-header interregional"><h3>2. VOOR FANF (KOEPELORGANISATIE)</h3></div>
+            <div class="info-box warning">
+                <h4>🇫🇷 Focus op Landelijke Belangenbehartiging</h4>
+                <ul>
+                    <li><strong>Prioriteit 1: Verdragsrecht & Mutuelle</strong> (4.44/5)</li>
+                    <li><strong>Prioriteit 2: Fiscale zaken</strong> (4.25/5)</li>
+                    <li><strong>Prioriteit 3: Consulaire diensten</strong> (4.22/5)</li>
+                    <li><strong>Organiseer webinars</strong> met deskundige sprekers</li>
+                    <li><strong>Coördineer sociaal netwerk</strong> voor hulp aan ouderen (4.04/5)</li>
+                </ul>
+            </div>
+            <div class="section-header" style="background: linear-gradient(135deg, #800000 0%, #a02020 100%);"><h3>3. VOOR NEDERLANDERS.FR, INFOFRANKRIJK & NEDERGIDS</h3></div>
+            <div class="info-box maroon">
+                <h4>🌐 Verbindende Platforms</h4>
+                <ul>
+                    <li><strong>Creëer zichtbaarheid</strong> voor alle 50+ verenigingen</li>
+                    <li><strong>Deel informatie</strong> over landelijke belangenbehartiging</li>
+                    <li><strong>Bereik de 62% niet-leden</strong> (15.500 potentiële leden!)</li>
+                    <li><strong>Faciliteer samenwerking</strong> tussen verenigingen</li>
+                </ul>
+            </div>
+            <div class="section-header" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);"><h3>4. SAMENWERKING IS DE SLEUTEL</h3></div>
+            <div class="info-box success">
+                <h4>🤝 Ecosysteem Benadering</h4>
+                <p><strong>Het ideale model:</strong></p>
+                <ul>
+                    <li><strong>Lokale verenigingen:</strong> Gezelligheid, borrels, business netwerken, persoonlijk contact</li>
+                    <li><strong>FANF (koepel):</strong> Belangenbehartiging, expertise, lobby, landelijke projecten</li>
+                    <li><strong>Media (Nederlanders.fr en Infofrankrijk.com):</strong> Kennis, zichtbaarheid, communicatie, bereik en community</li>
+                    <li><strong>Services (Nedergids):</strong> Praktische ondersteuning, dienstverlening, experts</li>
+                </ul>
+                <p style="margin-top: 20px;"><strong>Samen zijn we sterker!</strong> Elke speler heeft zijn eigen rol en versterkt de anderen.</p>
+            </div>
+        </div>
+
+        <div class="slide" style="background: linear-gradient(135deg, #800000 0%, #a02020 100%); color: white;">
+            <div style="text-align: center;">
+                <h1 style="color: white; font-size: 4em; margin-bottom: 30px;">Samen Sterker!</h1>
+                <p style="color: white; font-size: 1.8em; margin-bottom: 40px; line-height: 1.6;">466 Nederlanders hebben gesproken.<br>De data is duidelijk.<br>Tijd voor actie!</p>
+                <div class="stats-grid" style="margin: 50px 0;">
+                    <div class="stat-card" style="background: rgba(255,255,255,0.2);"><div class="stat-number">4.77/6</div><div class="stat-label">Aanbeveling</div></div>
+                    <div class="stat-card" style="background: rgba(255,255,255,0.2);"><div class="stat-number">62%</div><div class="stat-label">Groei Potentieel</div></div>
+                    <div class="stat-card" style="background: rgba(255,255,255,0.2);"><div class="stat-number">50+</div><div class="stat-label">Verenigingen</div></div>
+                    <div class="stat-card" style="background: rgba(255,255,255,0.2);"><div class="stat-number">25K+</div><div class="stat-label">Nederlanders.fr</div></div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 40px; border-radius: 15px; margin: 40px 0;">
+                    <h3 style="color: white; margin-bottom: 20px;">📧 Contact & Samenwerking</h3>
+                    <p style="color: white; font-size: 1.3em; margin: 15px 0;"><a href="mailto:info@nederlanders.fr" style="color: white;">info@nederlanders.fr</a></p>
+                    <p style="color: white; font-size: 1.3em; margin: 15px 0;"><a href="https://www.nederlanders.fr" target="_blank" style="color: white;">www.nederlanders.fr</a></p>
+                    <p style="color: white; font-size: 1.3em; margin: 15px 0;"><a href="https://www.infofrankrijk.com" target="_blank" style="color: white;">www.infofrankrijk.com</a></p>
+                    <p style="color: white; font-size: 1.3em; margin: 15px 0;"><a href="https://www.nedergids.nl" target="_blank" style="color: white;">www.nedergids.nl</a></p>
+                </div>
+                <div style="background: rgba(255,255,255,0.9); color: #2c3e50; padding: 30px; border-radius: 15px; margin-top: 40px;">
+                    <h4 style="color: #800000; margin-bottom: 15px;">🎯 De Boodschap</h4>
+                    <p style="color: #2c3e50; font-size: 1.2em; line-height: 1.8;"><strong>Lokale verenigingen</strong> organiseren op lokaal niveau gezelligheid en businessnetwerken.<br><strong>FANF</strong> behartigt landelijke belangen en biedt expertise aan.<br><strong>Nederlanders.fr</strong> verbindt.<br><strong>Samen versterken we het Nederlandse netwerk in Frankrijk!</strong></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="navigation">
+        <button class="nav-button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Top</button>
+        <button class="nav-button" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">↓ Einde</button>
+    </div>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({behavior: 'smooth'});
+            });
+        });
+        const observerOptions = {threshold: 0.1, rootMargin: '0px 0px -100px 0px'};
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.slide').forEach(slide => {
+            slide.style.opacity = '0';
+            slide.style.transform = 'translateY(30px)';
+            slide.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(slide);
+        });
+        const barObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.bar-fill');
+                    bars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => { bar.style.width = width; }, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.bar-chart').forEach(chart => { barObserver.observe(chart); });
+    </script>
+  </div>
+
+<script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({behavior: 'smooth'});
+            });
+        });
+        const observerOptions = {threshold: 0.1, rootMargin: '0px 0px -100px 0px'};
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.slide').forEach(slide => {
+            slide.style.opacity = '0';
+            slide.style.transform = 'translateY(30px)';
+            slide.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(slide);
+        });
+        const barObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.bar-fill');
+                    bars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => { bar.style.width = width; }, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.bar-chart').forEach(chart => { barObserver.observe(chart); });
+    </script>
+</body>
+</html>
